@@ -10,12 +10,12 @@ const getdata=()=>{
     if(data){
         render(data,currentpage)
         isScrollable=true
-        
         currentpage++;
     }else{
         fetch(`${ApiUrl}?page=${currentpage}&per_page=${size}`)
         .then(res=>res.json())
         .then(data=>{
+            console.log(data);
             save(currentpage,data)
             render(data,currentpage)
             // console.log(data);
@@ -79,26 +79,29 @@ const save=(pageNum,data)=>{
 
 
 const renderView=(data)=>{
-    document.querySelector('.pageNum').innerHTML=
-    `
-    <img src="${data.image_url}" alt="${data.name}-img">
-    <div class="content">
-        <div class="date">
-        ${data.first_brewed}
-        </div>
-        <div class="descriotion">
-        ${data.description}
-        </div>
-        <br>
-        <div class="contributor">
-            contributor
+    if(data){
+        document.querySelector('.pageNum').innerHTML=
+        `
+        <img src="${data.image_url}" alt="${data.name}-img">
+        <div class="content">
+            <div class="date">
+            ${data.first_brewed}
+            </div>
+            <div class="descriotion">
+            ${data.description}
+            </div>
             <br>
-            <span class="name">
-                <strong >  ${data.contributed_by}</strong>
-            </span>
+            <div class="contributor">
+                contributor
+                <br>
+                <span class="name">
+                    <strong >  ${data.contributed_by}</strong>
+                </span>
+            </div>
         </div>
-    </div>
-    `
+        `
+
+    }
 }
 
 const getDataByID=(id)=>{
@@ -114,12 +117,19 @@ const getDataByID=(id)=>{
 scrollable.addEventListener('click',(e)=>{
    const target=e.target;
    if(target.classList.contains('beer')){
-    if(!isNaN(Number(getDataByID(target.getAttribute('data-id'))))){
+    clearAllClass()   
+    target.classList.add('active')
 
+    if(!isNaN(Number(getDataByID(target.getAttribute('data-id'))))){
         getDataByID(Number(getDataByID(target.getAttribute('data-id'))))
     }
    }
 })
+const clearAllClass=()=>{
+    document.querySelectorAll('.beer').forEach(item=>{
+        item.classList.remove('active')
+    })
+}
 
 window.addEventListener('load',(e)=>{
     getdata()

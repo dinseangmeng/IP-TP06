@@ -94,6 +94,9 @@ body #container .scrollable .beer {
   align-items: center;
   gap: 0.5rem;
 }
+body #container .scrollable .beer.active {
+  background-color: #406ad1;
+}
 body #container .scrollable .beer > div {
   width: 100%;
   pointer-events: none;

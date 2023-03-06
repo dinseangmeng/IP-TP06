@@ -92,6 +92,9 @@ body{
                 justify-content: center;
                 align-items: center;
                 gap: .5rem;
+                &.active{
+                    background-color: #406ad1;
+                }
                 &>div{
                     width: 100%;
                     pointer-events: none;
